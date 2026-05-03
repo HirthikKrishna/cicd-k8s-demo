@@ -16,12 +16,14 @@ pipeline {
             }
         }
 
-        stage('Run Container') {
-            steps {
-                echo 'Running container...'
-                sh 'docker run -d -p 3000:3000 my-app'
-            }
-        }
+        stage('Deploy to Kubernetes') {
+    steps {
+        sh '''
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
+        '''
+    }
+}
 
     }
 }
